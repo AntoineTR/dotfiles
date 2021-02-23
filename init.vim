@@ -4,35 +4,40 @@ let &packpath = &runtimepath
 
 call plug#begin('~/.config/nvim/plugged') 
 Plug 'morhetz/gruvbox'
-Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
+"Plug 'neovim/nvim-lspconfig'
+"Plug 'nvim-lua/popup.nvim'
+"Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline'
 Plug 'OmniSharp/omnisharp-vim'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/async.vim'
-Plug 'SirVer/ultisnips'
+Plug 'dense-analysis/ale'
+"Plug 'prabirshrestha/asyncomplete.vim'
+"Plug 'prabirshrestha/async.vim'
+"Plug 'SirVer/ultisnips'
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
-set completeopt=menuone,noinsert,noselect,preview
-let g:asyncomplete_auto_popup = 1
-let g:asyncomplete_auto_completeopt = 0
-let g:asyncomplete_force_refresh_on_context_changed = 1
+"set completeopt=menuone,noinsert,noselect,preview
+"  let g:asyncomplete_auto_popup = 1
+"  let g:asyncomplete_auto_completeopt = 0
+"  let g:asyncomplete_force_refresh_on_context_changed = 1
 
-let g:OmniSharp_server_stdio = 1
-let g:OmniSharp_highlight_types = 2
-
-" if using ultisnips, set g:OmniSharp_want_snippet to 1
-let g:OmniSharp_want_snippet = 1
-filetype plugin on
-set omnifunc=syntaxcomplete#Complete
-let g:OmniSharp_server_type = 'roslyn' 
-let g:OmniSharp_prefer_global_sln = 1  
-let g:OmniSharp_timeout = 10           
-
-
+"let g:OmniSharp_server_stdio = 1
+"let g:OmniSharp_highlight_types = 2
+"
+"" if using ultisnips, set g:OmniSharp_want_snippet to 1
+"let g:OmniSharp_want_snippet = 1
+"filetype plugin on
+"set omnifunc=syntaxcomplete#Complete
+"let g:OmniSharp_server_type = 'roslyn' 
+"let g:OmniSharp_prefer_global_sln = 1  
+"let g:OmniSharp_timeout = 10           
+"nnoremap <C-o><C-u> :OmniSharpFindUsages<CR>
+nnoremap <C-o><C-d> :OmniSharpGotoDefinition<CR>
+"nnoremap <C-o><C-d><C-p> :OmniSharpPreviewDefinition<CR>
+"nnoremap <C-o><C-r> :!dotnet run
+let g:ale_linters = { 'cs': ['OmniSharp'] }
+let g:OmniSharp_server_use_mono = 1
 
 set relativenumber
 set nu
@@ -53,6 +58,7 @@ set clipboard=unnamed
 set noswapfile
 set clipboard=unnamed
 set updatetime=50
+
 
 colorscheme gruvbox
 set background=dark

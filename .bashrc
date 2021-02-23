@@ -1,5 +1,6 @@
 # Exports
 export EDITOR='nvim'
+export ASPNETCORE_ENVIRONMENT=Development
 # Common aliases
 alias r='exec /bin/bash'
 alias ll='ls -la'
