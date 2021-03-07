@@ -13,11 +13,16 @@ alias flushdns='sudo killall -HUP mDNSResponder;sudo killall mDNSResponderHelper
 # Git
 alias gs='git status'
 alias gc='git commit'
+alias ga='git add .'
+alias gp='git push'
 
 # GetShitDone
 alias gsd='sudo ~/dotfiles/getshitdone/get-shit-done.sh'
 alias gsdw='sudo ~/dotfiles/getshitdone/get-shit-done.sh work'
 alias gsdp='sudo ~/dotfiles/getshitdone/get-shit-done.sh play'
+
+#Wttr
+alias wttr='curl wttr.in'
 
 #What's my IP
 alias myip='curl ifconfig.me'

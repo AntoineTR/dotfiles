@@ -1,0 +1,14 @@
+# ./.tmuxinator.yml
+
+name: resellerHubServer
+root: ~/
+
+windows:
+  - main:
+      layout: even-horizontal
+      # Synchronize all panes of this window, can be enabled before or after the pane commands run.
+      # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
+      # synchronize: after
+      panes:
+        - ssh maxadmin@108.163.128.254
+        - ssh maxadmin@108.163.128.254 -p 222
