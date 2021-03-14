@@ -15,3 +15,8 @@ windows:
         - vim .tmux.conf
         - vim .bashrc
         - vim init.vim
+  - cmd:
+      panes:
+        - ls -al
+      
+
