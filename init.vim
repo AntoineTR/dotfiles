@@ -36,7 +36,7 @@ let g:ale_linters = { 'cs': ['OmniSharp'] }
 "let g:OmniSharp_server_use_mono = 1
 
 
-
+"nvim configs
 set relativenumber
 set nu
 set guicursor=
@@ -54,17 +54,12 @@ set signcolumn=yes
 set colorcolumn=80
 set clipboard=unnamed
 set noswapfile
-"set clipboard=unnamed
 set updatetime=50
-"set termguicolors
-"set modifiable=on
 
 "Set Theme
-"let g:dracula_italic = 0
 colorscheme dracula
-"highlight Normal ctermbg=None
-"set background=dark
 
+"Telescope Shortcut
 let mapleader = " "
 
 nnoremap <leader>ps :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<CR>
