@@ -27,6 +27,8 @@ call plug#end()
 nnoremap <C-o><C-d> :OmniSharpGotoDefinition<CR>
 "nnoremap <C-o><C-d><C-p> :OmniSharpPreviewDefinition<CR>
 "nnoremap <C-o><C-r> :!dotnet run
+inoremap <expr> <Tab> pumvisible() ? '<C-n>' :                                                                                                                    
+\ getline('.')[col('.')-2] =~# '[[:alnum:].-_#$]' ? '<C-x><C-o>' : '<Tab>'
 
 "Ale is for linting ( unused usings, live errors )
 let g:ale_linters = { 'cs': ['OmniSharp'] }
