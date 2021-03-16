@@ -1,5 +1,7 @@
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
+let mapleader = " "
+
 " source ~/.vimrc
 
 call plug#begin('~/.config/nvim/plugged') 
@@ -19,6 +21,9 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'OmniSharp/omnisharp-vim'
 Plug 'dense-analysis/ale'
 
+" debugger
+Plug 'puremourning/vimspector'
+
 
 call plug#end()
 
@@ -34,6 +39,20 @@ inoremap <expr> <Tab> pumvisible() ? '<C-n>' :
 let g:ale_linters = { 'cs': ['OmniSharp'] }
 "Some reference problem between projects without this ...
 "let g:OmniSharp_server_use_mono = 1
+
+
+"vimspector remap and configs
+"for normal mode - Launch Debugger
+"nmap <Leader>dl :call vimspector#Launch()
+nmap <Leader>dc :call vimspector#Reset()<CR>
+ 
+"for normal mode - the word under the cursor
+nmap <Leader>di <Plug>VimspectorBalloonEval
+"for visual mode, the visually selected text
+xmap <Leader>di <Plug>VimspectorBalloonEval
+
+" https://github.com/puremourning/vimspector#human-mode
+let g:vimspector_enable_mappings = 'HUMAN'
 
 
 "nvim configs
@@ -60,7 +79,6 @@ set updatetime=50
 colorscheme dracula
 
 "Telescope Shortcut
-let mapleader = " "
 
 nnoremap <leader>ps :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<CR>
 nnoremap <C-p> :lua require('telescope.builtin').git_files()<CR>
