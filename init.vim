@@ -27,6 +27,9 @@ Plug 'puremourning/vimspector'
 
 call plug#end()
 
+"Lua Files
+lua require("leantoinetr")
+
 "Some remap for Omnisharp
 "nnoremap <C-o><C-u> :OmniSharpFindUsages<CR>
 nnoremap <C-o><C-d> :OmniSharpGotoDefinition<CR>
@@ -78,9 +81,14 @@ set updatetime=50
 "Set Theme
 colorscheme dracula
 
-"Telescope Shortcut
+"Telescope Shortcut and Lua config
 
 nnoremap <leader>ps :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<CR>
 nnoremap <C-p> :lua require('telescope.builtin').git_files()<CR>
+nnoremap <C-b> :lua require('telescope.builtin').git_branches()<CR>
 nnoremap <Leader>pf :lua require('telescope.builtin').find_files()<CR>
 "inoremap <silent><expr> <c-space> coc#refresh()
+
+"QuickFix List Remaps
+map <C-j> :cn<CR>
+map <C-k> :cp<CR>
