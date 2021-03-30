@@ -17,9 +17,9 @@ alias ga='git add .'
 alias gp='git push'
 
 # GetShitDone
-alias gsd='sudo ~/dotfiles/getshitdone/get-shit-done.sh'
-alias gsdw='sudo ~/dotfiles/getshitdone/get-shit-done.sh work'
-alias gsdp='sudo ~/dotfiles/getshitdone/get-shit-done.sh play'
+alias gsd='sudo ~/tools/get-shit-done/get-shit-done.sh'
+alias gsdw='sudo ~/tools/get-shit-done/get-shit-done.sh work'
+alias gsdp='sudo ~/tools/get-shit-done/get-shit-done.sh play'
 
 #Wttr
 alias wttr='curl wttr.in'

@@ -12,6 +12,9 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 "File Explorer
 Plug 'preservim/nerdtree'
 
+"Commenter
+Plug 'preservim/nerdcommenter'
+
 " Telescope (fzf like) 
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
