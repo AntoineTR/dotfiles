@@ -1,9 +1,9 @@
-# Users/antoinetheriault/.config/tmuxinator/dotfiles.yml
+# Users/leantoinetr/.config/tmuxinator/dotfiles.yml
 
 name: dotfiles
 root: ~/dotfiles/
 
-pre_window: sleep 0.75
+  #pre_window: sleep 0.75
 
 windows:
   - editor:
@@ -12,9 +12,9 @@ windows:
       # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
       # synchronize: after
       panes:
-        - vim .tmux.conf
-        - vim .bashrc
-        - vim init.vim
+        - vim tmux/.tmux.conf
+        - vim bash/.bashrc
+        - vim nvim/init.vim
   - cmd:
       panes:
         - ls -al

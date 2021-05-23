@@ -1,9 +1,17 @@
 #!/usr/bin/env bash
 
+# install nvim 0.5
+sudo add-apt-repository -y ppa:neovim-ppa/unstable
+sudo apt-get -y update
+sudo apt-get -y install neovim
+# install nodejs
+sudo apt-get -y install nodejs
+# install tmuxinator
+sudo apt-get -y install tmuxinator
+
 # create folders
-mkdir -p ~/.config/nvim/plugin
-mkdir -p ~/.config/nvim/after/plugin
-mkdir -p ~/.config/nvim/lua/leantoinetr
+mkdir -p ~/.config/nvim/{plugin,after/plugin,lua/leantoinetr}
+mkdir -p ~/.config/tmuxinator
 
 # add symlink .bashrc
 rm -rf ~/.bashrc
@@ -18,3 +26,8 @@ for f in `find nvim/ -regex ".*\.vim$\|.*\.lua$"`; do
     rm -rf ~/.config/$f
     ln -s ~/dotfiles/$f ~/.config/$f
 done
+# add symlink dotfiles project
+rm -rf ~/.config/tmuxinator/dotfiles.yml
+ln -s ~/dotfiles/dotfiles.yml ~/.config/tmuxinator/dotfiles.yml
+
+#PlugInstall //TODO run & install

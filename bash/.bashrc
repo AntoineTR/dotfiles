@@ -1,6 +1,7 @@
 # Exports
 export EDITOR='nvim'
 export ASPNETCORE_ENVIRONMENT=Development
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
 # Common aliases
 alias r='exec /bin/bash'
 alias ll='ls -la'
