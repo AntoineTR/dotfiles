@@ -1,10 +1,20 @@
 #!/usr/bin/env bash
+
+# create folders
 mkdir -p ~/.config/nvim/plugin
 mkdir -p ~/.config/nvim/after/plugin
-mkdir -p ~/.config/nvim/lua
+mkdir -p ~/.config/nvim/lua/leantoinetr
 
-# link wholesale
-for f in `find . -regex ".*\.vim$\|.*\.lua$"`; do
-    rm -rf ~/.config/nvim/$f
-    ln -s ~/dotfiles/$f ~/.config/nvim/$f
+# add symlink .bashrc
+rm -rf ~/.bashrc
+ln -s ~/dotfiles/bash/.bashrc ~/.bashrc
+
+# add symlink .tmux
+rm -rf ~/.tmux.conf
+ln -s ~/dotfiles/tmux/.tmux.conf ~/.tmux.conf
+
+# add symlink nvim
+for f in `find nvim/ -regex ".*\.vim$\|.*\.lua$"`; do
+    rm -rf ~/.config/$f
+    ln -s ~/dotfiles/$f ~/.config/$f
 done
