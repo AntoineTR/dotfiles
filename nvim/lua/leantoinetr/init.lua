@@ -1,1 +1,2 @@
-require("leantoinetr.telescope")
+--gotta fix that ...
+--require("leantoinetr.telescope")

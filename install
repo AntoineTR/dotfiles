@@ -3,6 +3,7 @@
 # install nvim 0.5
 sudo add-apt-repository -y ppa:neovim-ppa/unstable
 sudo apt-get -y update
+sudo apt-get -y upgrade
 sudo apt-get -y install neovim
 # install nodejs
 sudo apt-get -y install nodejs
@@ -30,4 +31,9 @@ done
 rm -rf ~/.config/tmuxinator/dotfiles.yml
 ln -s ~/dotfiles/dotfiles.yml ~/.config/tmuxinator/dotfiles.yml
 
+#Plugin manager for Tmux
+rm -rf ~/.tmux/plugins/tpm
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+tmux source-file ~/.tmux.conf
+#sh ~/.tmux/plugins/tpm/scripts/install_plugins.sh
 #PlugInstall //TODO run & install
