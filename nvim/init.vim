@@ -27,6 +27,10 @@ Plug 'dense-analysis/ale'
 " debugger
 Plug 'puremourning/vimspector'
 
+" Coc Server
+Plug 'neoclide/coc.nvim',{'branch': 'release'}
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
 
 call plug#end()
 
@@ -95,3 +99,10 @@ nnoremap <Leader>pf :lua require('telescope.builtin').find_files()<CR>
 "QuickFix List Remaps
 map <C-j> :cn<CR>
 map <C-k> :cp<CR>
+
+
+"Typescript remap
+let g:typescript_compiler_binary = 'tsc'
+let g:typescript_compiler_options = ''
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
