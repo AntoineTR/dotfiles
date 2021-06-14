@@ -27,6 +27,9 @@ Plug 'dense-analysis/ale'
 " debugger
 Plug 'puremourning/vimspector'
 
+" FrontEnd
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim' 
 
 call plug#end()
 
