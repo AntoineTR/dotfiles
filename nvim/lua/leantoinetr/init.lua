@@ -1,0 +1,3 @@
+--gotta fix that ...
+--require("leantoinetr.telescope")
+require("leantoinetr.treesitter")

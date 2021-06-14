@@ -4,6 +4,12 @@ let mapleader = " "
 
 " source ~/.vimrc
 
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 call plug#begin('~/.config/nvim/plugged') 
 "Theme
 Plug 'morhetz/gruvbox'
@@ -27,9 +33,10 @@ Plug 'dense-analysis/ale'
 " debugger
 Plug 'puremourning/vimspector'
 
-" FrontEnd
-Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim' 
+" Coc Server
+Plug 'neoclide/coc.nvim',{'branch': 'release'}
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
 
 call plug#end()
 
@@ -45,7 +52,15 @@ inoremap <expr> <Tab> pumvisible() ? '<C-n>' :
 \ getline('.')[col('.')-2] =~# '[[:alnum:].-_#$]' ? '<C-x><C-o>' : '<Tab>'
 
 "Ale is for linting ( unused usings, live errors )
-let g:ale_linters = { 'cs': ['OmniSharp'] }
+let g:ale_linters = { 
+            \ 'cs': ['OmniSharp'],
+            \ 'javascript': ['eslint'],
+            \}
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+            \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+            \   'javascript': ['eslint'],
+            \}
 "Some reference problem between projects without this ...
 "let g:OmniSharp_server_use_mono = 1
 
@@ -98,3 +113,15 @@ nnoremap <Leader>pf :lua require('telescope.builtin').find_files()<CR>
 "QuickFix List Remaps
 map <C-j> :cn<CR>
 map <C-k> :cp<CR>
+
+
+"Typescript remap
+let g:typescript_compiler_binary = 'tsc'
+let g:typescript_compiler_options = ''
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
+let g:coc_global_extensions = [ 'coc-tsserver' ]
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)

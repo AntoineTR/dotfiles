@@ -1,10 +1,39 @@
 #!/usr/bin/env bash
-mkdir -p ~/.config/nvim/plugin
-mkdir -p ~/.config/nvim/after/plugin
-mkdir -p ~/.config/nvim/lua
 
-# link wholesale
-for f in `find . -regex ".*\.vim$\|.*\.lua$"`; do
-    rm -rf ~/.config/nvim/$f
-    ln -s ~/dotfiles/$f ~/.config/nvim/$f
+# install nvim 0.5
+sudo add-apt-repository -y ppa:neovim-ppa/unstable
+sudo apt-get -y update
+sudo apt-get -y upgrade
+sudo apt-get -y install neovim
+# install nodejs
+sudo apt-get -y install nodejs npm
+# install tmuxinator
+sudo apt-get -y install tmuxinator
+
+# create folders
+mkdir -p ~/.config/nvim/{plugin,after/plugin,lua/leantoinetr}
+mkdir -p ~/.config/tmuxinator
+
+# add symlink .bashrc
+rm -rf ~/.bashrc
+ln -s ~/dotfiles/bash/.bashrc ~/.bashrc
+
+# add symlink .tmux
+rm -rf ~/.tmux.conf
+ln -s ~/dotfiles/tmux/.tmux.conf ~/.tmux.conf
+
+# add symlink nvim
+for f in `find nvim/ -regex ".*\.vim$\|.*\.lua$"`; do
+    rm -rf ~/.config/$f
+    ln -s ~/dotfiles/$f ~/.config/$f
 done
+# add symlink dotfiles project
+rm -rf ~/.config/tmuxinator/dotfiles.yml
+ln -s ~/dotfiles/dotfiles.yml ~/.config/tmuxinator/dotfiles.yml
+
+#Plugin manager for Tmux
+rm -rf ~/.tmux/plugins/tpm
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+tmux source-file ~/.tmux.conf
+#sh ~/.tmux/plugins/tpm/scripts/install_plugins.sh
+#PlugInstall //TODO run & install
