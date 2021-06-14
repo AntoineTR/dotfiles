@@ -52,7 +52,15 @@ inoremap <expr> <Tab> pumvisible() ? '<C-n>' :
 \ getline('.')[col('.')-2] =~# '[[:alnum:].-_#$]' ? '<C-x><C-o>' : '<Tab>'
 
 "Ale is for linting ( unused usings, live errors )
-let g:ale_linters = { 'cs': ['OmniSharp'] }
+let g:ale_linters = { 
+            \ 'cs': ['OmniSharp'],
+            \ 'javascript': ['eslint'],
+            \}
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+            \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+            \   'javascript': ['eslint'],
+            \}
 "Some reference problem between projects without this ...
 "let g:OmniSharp_server_use_mono = 1
 
@@ -112,3 +120,8 @@ let g:typescript_compiler_binary = 'tsc'
 let g:typescript_compiler_options = ''
 autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
+let g:coc_global_extensions = [ 'coc-tsserver' ]
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)

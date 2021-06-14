@@ -6,7 +6,7 @@ sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo apt-get -y install neovim
 # install nodejs
-sudo apt-get -y install nodejs
+sudo apt-get -y install nodejs npm
 # install tmuxinator
 sudo apt-get -y install tmuxinator
 
