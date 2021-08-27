@@ -3,7 +3,7 @@
 name: dotfiles
 root: ~/dotfiles/
 
-  #pre_window: sleep 0.75
+pre_window: sleep 0.75
 
 windows:
   - editor:
@@ -18,5 +18,3 @@ windows:
   - cmd:
       panes:
         - ls -al
-      
-

@@ -2,7 +2,9 @@ set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 let mapleader = " "
 
-" source ~/.vimrc
+"source ~/.vimrc
+
+"PLUGINS
 
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
@@ -10,9 +12,9 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-call plug#begin('~/.config/nvim/plugged') 
+call plug#begin('~/.config/nvim/plugged')
 "Theme
-Plug 'morhetz/gruvbox'
+"Plug 'morhetz/gruvbox' -- switched to dracula
 Plug 'dracula/vim', { 'as': 'dracula' }
 
 "File Explorer
@@ -21,12 +23,12 @@ Plug 'preservim/nerdtree'
 "Commenter
 Plug 'preservim/nerdcommenter'
 
-" Telescope (fzf like) 
+" Telescope (fzf like)
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
-" dotnet 
+" dotnet
 Plug 'OmniSharp/omnisharp-vim'
 Plug 'dense-analysis/ale'
 
@@ -36,23 +38,21 @@ Plug 'puremourning/vimspector'
 " Coc Server
 Plug 'neoclide/coc.nvim',{'branch': 'release'}
 
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+"Highlight
+Plug 'sheerun/vim-polyglot'
+
+" Markdown preview
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
 
 call plug#end()
 
-"Lua Files
-lua require("leantoinetr")
-
-"Some remap for Omnisharp
-"nnoremap <C-o><C-u> :OmniSharpFindUsages<CR>
-nnoremap <C-o><C-d> :OmniSharpGotoDefinition<CR>
-"nnoremap <C-o><C-d><C-p> :OmniSharpPreviewDefinition<CR>
-"nnoremap <C-o><C-r> :!dotnet run
-inoremap <expr> <Tab> pumvisible() ? '<C-n>' :                                                                                                                    
-\ getline('.')[col('.')-2] =~# '[[:alnum:].-_#$]' ? '<C-x><C-o>' : '<Tab>'
+"CONFIG PLUGINS
 
 "Ale is for linting ( unused usings, live errors )
-let g:ale_linters = { 
+let g:ale_linters = {
             \ 'cs': ['OmniSharp'],
             \ 'javascript': ['eslint'],
             \}
@@ -61,23 +61,11 @@ let g:ale_fixers = {
             \   '*': ['remove_trailing_lines', 'trim_whitespace'],
             \   'javascript': ['eslint'],
             \}
-"Some reference problem between projects without this ...
-"let g:OmniSharp_server_use_mono = 1
 
 
-"vimspector remap and configs
-"for normal mode - Launch Debugger
-"nmap <Leader>dl :call vimspector#Launch()
-nmap <Leader>dc :call vimspector#Reset()<CR>
- 
-"for normal mode - the word under the cursor
-nmap <Leader>di <Plug>VimspectorBalloonEval
-"for visual mode, the visually selected text
-xmap <Leader>di <Plug>VimspectorBalloonEval
 
-" https://github.com/puremourning/vimspector#human-mode
-let g:vimspector_enable_mappings = 'HUMAN'
-
+"Lua Files
+lua require("leantoinetr")
 
 "nvim configs
 set relativenumber
@@ -98,6 +86,7 @@ set colorcolumn=80
 set clipboard=unnamed
 set noswapfile
 set updatetime=50
+filetype plugin on
 
 "Set Theme
 colorscheme dracula

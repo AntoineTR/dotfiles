@@ -11,7 +11,7 @@ sudo apt-get -y install nodejs npm
 sudo apt-get -y install tmuxinator
 
 # create folders
-mkdir -p ~/.config/nvim/{plugin,after/plugin,lua/leantoinetr}
+mkdir -p ~/.config/nvim/{plugin,after/plugin,lua/leantoinetr,ftplugin}
 mkdir -p ~/.config/tmuxinator
 
 # add symlink .bashrc
