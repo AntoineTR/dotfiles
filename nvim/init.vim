@@ -52,6 +52,7 @@ call plug#end()
 "CONFIG PLUGINS
 
 "Ale is for linting ( unused usings, live errors )
+"Should be split in ftplugin
 let g:ale_linters = {
             \ 'cs': ['OmniSharp'],
             \ 'javascript': ['eslint'],
@@ -60,6 +61,7 @@ let g:ale_fix_on_save = 1
 let g:ale_fixers = {
             \   '*': ['remove_trailing_lines', 'trim_whitespace'],
             \   'javascript': ['eslint'],
+            \   'typescript': ['eslint','prettier'],
             \}
 
 
