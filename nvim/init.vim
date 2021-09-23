@@ -61,7 +61,7 @@ let g:ale_fix_on_save = 1
 let g:ale_fixers = {
             \   '*': ['remove_trailing_lines', 'trim_whitespace'],
             \   'javascript': ['eslint'],
-            \   'typescript': ['eslint','prettier'],
+            \   'typescript': ['eslint','prettier','tslint'],
             \}
 
 
@@ -96,9 +96,9 @@ colorscheme dracula
 "Telescope Shortcut and Lua config
 
 nnoremap <leader>ps :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<CR>
-nnoremap <C-p> :lua require('telescope.builtin').git_files()<CR>
+"nnoremap <C-p> :lua require('telescope.builtin').git_files()<CR>
 nnoremap <C-b> :lua require('telescope.builtin').git_branches()<CR>
-nnoremap <Leader>pf :lua require('telescope.builtin').find_files()<CR>
+nnoremap <C-p> :lua require('telescope.builtin').find_files()<CR>
 "inoremap <silent><expr> <c-space> coc#refresh()
 
 "QuickFix List Remaps
