@@ -46,6 +46,9 @@ Plug 'sheerun/vim-polyglot'
 " Markdown preview
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
+" Copilot
+Plug 'github/copilot.vim'
+
 
 call plug#end()
 
