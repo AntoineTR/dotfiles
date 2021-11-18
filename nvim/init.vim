@@ -84,7 +84,7 @@ set nowrap
 set incsearch
 set scrolloff=5
 set signcolumn=yes
-set colorcolumn=80
+set colorcolumn=140
 set clipboard=unnamed
 set noswapfile
 set updatetime=50
@@ -116,3 +116,4 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> ga <Plug>(coc-fix-current)
