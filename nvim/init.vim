@@ -121,6 +121,7 @@ nmap <leader>a :G<CR>
 "Fugitive Remaps
 nmap <leader>gs :G<CR>
 nmap <leader>gd :Gdiffsplit<CR>
+nmap <leader>gp :Git push<CR>
 
 "QuickFix List Remaps
 map <C-j> :cn<CR>
