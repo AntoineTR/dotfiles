@@ -28,6 +28,12 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
+" Harpoon
+Plug 'ThePrimeagen/harpoon'
+
+" Fugitive - Git addon
+Plug 'tpope/vim-fugitive'
+
 " dotnet
 Plug 'OmniSharp/omnisharp-vim'
 Plug 'dense-analysis/ale'
@@ -103,6 +109,18 @@ nnoremap <leader>ps :lua require('telescope.builtin').grep_string({ search = vim
 nnoremap <C-b> :lua require('telescope.builtin').git_branches()<CR>
 nnoremap <C-p> :lua require('telescope.builtin').find_files()<CR>
 "inoremap <silent><expr> <c-space> coc#refresh()
+
+"Harpoon Remaps
+nmap <leader>hh :lua require("harpoon.ui").toggle_quick_menu()<CR>
+nmap <leader>ha :lua require("harpoon.mark").add_file()<CR>
+nmap <leader>f :lua require("harpoon.ui").nav_prev()<CR>
+nmap <leader>j :lua require("harpoon.ui").nav_next()<CR>
+
+nmap <leader>a :G<CR>
+
+"Fugitive Remaps
+nmap <leader>gs :G<CR>
+nmap <leader>gd :Gdiffsplit<CR>
 
 "QuickFix List Remaps
 map <C-j> :cn<CR>
