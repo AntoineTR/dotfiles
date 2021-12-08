@@ -102,6 +102,7 @@ nnoremap <leader>ps :lua require('telescope.builtin').grep_string({ search = vim
 "nnoremap <C-p> :lua require('telescope.builtin').git_files()<CR>
 nnoremap <C-b> :lua require('telescope.builtin').git_branches()<CR>
 nnoremap <C-p> :lua require('telescope.builtin').find_files()<CR>
+nnoremap <C-f> :lua require('telescope.builtin').file_browser()<CR>
 "inoremap <silent><expr> <c-space> coc#refresh()
 
 "QuickFix List Remaps
