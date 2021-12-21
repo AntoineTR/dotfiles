@@ -66,7 +66,11 @@ let g:ale_fixers = {
             \   'javascript': ['eslint'],
             \   'typescript': ['eslint','prettier','tslint'],
             \}
+" Copilot configs
 
+let g:copilot_filetypes = {
+            \ 'markdown': v:true,
+            \}
 
 
 "Lua Files
@@ -91,18 +95,12 @@ set colorcolumn=80
 set clipboard=unnamed
 set noswapfile
 set updatetime=50
+set autochdir
 filetype plugin on
 
 "Set Theme
 colorscheme dracula
 
-"Telescope Shortcut and Lua config
-
-nnoremap <leader>ps :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<CR>
-"nnoremap <C-p> :lua require('telescope.builtin').git_files()<CR>
-nnoremap <C-b> :lua require('telescope.builtin').git_branches()<CR>
-nnoremap <C-p> :lua require('telescope.builtin').find_files()<CR>
-"inoremap <silent><expr> <c-space> coc#refresh()
 
 "QuickFix List Remaps
 map <C-j> :cn<CR>
