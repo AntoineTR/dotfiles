@@ -12,13 +12,15 @@ rm -rf ~/.bashrc
 ln -s ~/dotfiles/bash/.bashrc ~/.bashrc
 rm -rf ~/.bash_profile
 ln -s ~/dotfiles/bash/.bash_profile ~/.bash_profile
+rm -rf ~/.zshrc
+ln -s ~/dotfiles/bash/.zshrc ~/.zshrc
 
 # add symlink .tmux
 rm -rf ~/.tmux.conf
 ln -s ~/dotfiles/tmux/.tmux.conf ~/.tmux.conf
 
 # add symlink nvim
-for f in `find nvim/ -regex ".*\.vim$\|.*\.lua$"`; do
+for f in `find nvim/ -name "*.vim" -o -name "*.lua"`; do
     rm -rf ~/.config/$f
     ln -s ~/dotfiles/$f ~/.config/$f
 done

@@ -2,8 +2,6 @@ set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 let mapleader = " "
 
-"source ~/.vimrc
-
 "PLUGINS
 
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
@@ -35,19 +33,20 @@ Plug 'ThePrimeagen/harpoon'
 Plug 'tpope/vim-fugitive'
 
 " dotnet
-Plug 'OmniSharp/omnisharp-vim'
-Plug 'dense-analysis/ale'
+" Plug 'OmniSharp/omnisharp-vim'
+" Plug 'dense-analysis/ale'
 
 " debugger
-Plug 'puremourning/vimspector'
+" Plug 'puremourning/vimspector'
 
 " Coc Server
-Plug 'neoclide/coc.nvim',{'branch': 'release'}
+" Plug 'neoclide/coc.nvim',{'branch': 'release'}
 
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" treesitter
+"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
-"Highlight
-Plug 'sheerun/vim-polyglot'
+" Highlight
+" Plug 'sheerun/vim-polyglot'
 
 " Markdown preview
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
@@ -62,16 +61,17 @@ call plug#end()
 
 "Ale is for linting ( unused usings, live errors )
 "Should be split in ftplugin
-let g:ale_linters = {
-            \ 'cs': ['OmniSharp'],
-            \ 'javascript': ['eslint'],
-            \}
-let g:ale_fix_on_save = 1
-let g:ale_fixers = {
-            \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-            \   'javascript': ['eslint'],
-            \   'typescript': ['eslint','prettier','tslint'],
-            \}
+"let g:ale_linters = {
+            "\ 'cs': ['OmniSharp'],
+            "\ 'javascript': ['eslint'],
+            "\}
+"let g:ale_fix_on_save = 1
+"let g:ale_fixers = {
+            "\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+            "\   'javascript': ['eslint'],
+            "\   'typescript': ['eslint','prettier','tslint'],
+            "\}
+
 " Copilot configs
 
 let g:copilot_filetypes = {
@@ -80,7 +80,7 @@ let g:copilot_filetypes = {
 
 
 "Lua Files
-lua require("leantoinetr")
+"lua require("leantoinetr")
 
 "nvim configs
 set relativenumber
@@ -101,11 +101,11 @@ set colorcolumn=140
 set clipboard=unnamed
 set noswapfile
 set updatetime=50
-set autochdir
+"set autochdir
 filetype plugin on
 
 "Set Theme
-colorscheme dracula
+"colorscheme dracula
 
 
 "Harpoon Remaps

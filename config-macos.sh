@@ -46,8 +46,6 @@ defaults write com.apple.dock wvous-tr-corner -int 13 # lock
 defaults write com.apple.dock wvous-tr-modifier -int 13 # add option modifier to corner
 
 # Dock
-defaults write com.apple.dock autohide-time-modifier -float 0 # no dock anim.
-defaults write com.apple.dock autohide-delay -float 0 # no dock delay
 defaults write com.apple.dock tilesize -int 32 # dock icon size
 defaults write com.apple.dock expose-animation-duration -float 0.1 # faster dock anim.
 

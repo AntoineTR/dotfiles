@@ -15,8 +15,8 @@ brew install --cask dotnet-sdk
 brew install node
 
 # tmux / tmuxinator
-brew install tmux
-brew install tmuxinator
+brew install tmux \
+ tmuxinator
 
 # Neovim
 brew install neovim
@@ -30,3 +30,11 @@ brew install neovim
 # PynVim
 
 # pip3 install pynvim
+
+# FiraCode Fonts
+
+brew tap homebrew/cask-fonts
+brew install \
+  font-fira-code \
+  font-fira-mono \
+  font-fira-sans
