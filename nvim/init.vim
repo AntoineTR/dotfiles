@@ -72,11 +72,6 @@ call plug#end()
             "\   'typescript': ['eslint','prettier','tslint'],
             "\}
 
-" Copilot configs
-
-let g:copilot_filetypes = {
-            \ 'markdown': v:true,
-            \}
 
 
 "Lua Files
@@ -108,18 +103,6 @@ filetype plugin on
 "colorscheme dracula
 
 
-"Harpoon Remaps
-nmap <leader>hh :lua require("harpoon.ui").toggle_quick_menu()<CR>
-nmap <leader>ha :lua require("harpoon.mark").add_file()<CR>
-nmap <leader>f :lua require("harpoon.ui").nav_prev()<CR>
-nmap <leader>j :lua require("harpoon.ui").nav_next()<CR>
-
-nmap <leader>a :G<CR>
-
-"Fugitive Remaps
-nmap <leader>gs :G<CR>
-nmap <leader>gd :Gdiffsplit<CR>
-nmap <leader>gp :Git push<CR>
 
 "QuickFix List Remaps
 map <C-j> :cn<CR>
@@ -127,13 +110,13 @@ map <C-k> :cp<CR>
 
 
 "Typescript remap
-let g:typescript_compiler_binary = 'tsc'
-let g:typescript_compiler_options = ''
-autocmd QuickFixCmdPost [^l]* nested cwindow
-autocmd QuickFixCmdPost    l* nested lwindow
-let g:coc_global_extensions = [ 'coc-tsserver' ]
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <silent> ga <Plug>(coc-fix-current)
+"let g:typescript_compiler_binary = 'tsc'
+"let g:typescript_compiler_options = ''
+"autocmd QuickFixCmdPost [^l]* nested cwindow
+"autocmd QuickFixCmdPost    l* nested lwindow
+"let g:coc_global_extensions = [ 'coc-tsserver' ]
+"nmap <silent> gd <Plug>(coc-definition)
+"nmap <silent> gy <Plug>(coc-type-definition)
+"nmap <silent> gi <Plug>(coc-implementation)
+"nmap <silent> gr <Plug>(coc-references)
+"nmap <silent> ga <Plug>(coc-fix-current)

@@ -2,7 +2,7 @@
 
 
 # create folders
-mkdir -p ~/.config/nvim/{plugin,after/plugin,lua/leantoinetr,ftplugin}
+mkdir -p ~/.config/nvim/{plugin,after/plugin,ftplugin}
 mkdir -p ~/.config/tmuxinator
 mkdir -p ~/.tmux/plugins/tpm
 
