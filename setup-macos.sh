@@ -1,54 +1,32 @@
-# MACOS Configs
+# brew
+if ! [ -x "$(command -v brew)" ]; then
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+brew update
+brew doctor
 
-# No sleep
-sudo pmset -a sleep 0
-sudo pmset -a hibernatemode 0 
-sudo pmset -a disablesleep 1
+# iterm2
+brew install --cask iterm2
 
-#Name
-sudo scutil --set ComputerName "antoine-mbp" # set hostname
-sudo scutil --set HostName "antoine-mbp"
-sudo scutil --set LocalHostName "antoine-mbp"
+# dotnet sdk
+brew install --cask dotnet-sdk
 
-#Screen saver
-defaults write com.apple.screensaver askForPassword -int 1
-defaults write com.apple.screensaver askForPasswordDelay -int 10
+# NodeJs
+brew install node
 
-#Finder
-defaults write -g AppleShowAllExtensions -bool true
-defaults write com.apple.finder AppleShowAllFiles true 
-defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv" # list view is default
-defaults write com.apple.finder WarnOnEmptyTrash -bool false 
-defaults write com.apple.finder QuitMenuItem -bool true # quit finder with ⌘ + Q
-defaults write com.apple.finder FXDefaultSearchScope -string "SCcf" # Use current directory as default search scope in Finder
-defaults write com.apple.finder ShowPathbar -bool true
-defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
-defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+# tmux / tmuxinator
+brew install tmux
+brew install tmuxinator
 
-# Keyboard
-defaults write NSGlobalDomain AppleKeyboardUIMode -int 3 # allow tab in popups
-defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false # disable spelling correction
+# Neovim
+brew install neovim
 
-defaults write NSGlobalDomain KeyRepeat -int 2 
-defaults write NSGlobalDomain InitialKeyRepeat -int 15
+# PyEnv
+# brew install pyenv
 
-# Mouse
+# Python 
+# pyenv install 3:latest
 
-defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+# PynVim
 
-# Battery 
-defaults write com.apple.menuextra.battery ShowPercent -string "NO"
-defaults write com.apple.menuextra.battery ShowTime -string "YES"
-
-#Corner
-defaults write com.apple.dock wvous-tr-corner -int 13 # lock
-defaults write com.apple.dock wvous-tr-modifier -int 13 # add option modifier to corner
-
-# Dock
-defaults write com.apple.dock autohide-time-modifier -float 0 # no dock anim.
-defaults write com.apple.dock autohide-delay -float 0 # no dock delay
-defaults write com.apple.dock tilesize -int 32 # dock icon size
-defaults write com.apple.dock expose-animation-duration -float 0.1 # faster dock anim.
-
-
-for app in Safari Finder Dock Mail SystemUIServer; do killall "$app" >/dev/null 2>&1; done
+# pip3 install pynvim
