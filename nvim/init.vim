@@ -28,6 +28,12 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
+" Harpoon
+Plug 'ThePrimeagen/harpoon'
+
+" Fugitive - Git addon
+Plug 'tpope/vim-fugitive'
+
 " dotnet
 Plug 'OmniSharp/omnisharp-vim'
 Plug 'dense-analysis/ale'
@@ -91,7 +97,7 @@ set nowrap
 set incsearch
 set scrolloff=5
 set signcolumn=yes
-set colorcolumn=80
+set colorcolumn=140
 set clipboard=unnamed
 set noswapfile
 set updatetime=50
@@ -101,6 +107,19 @@ filetype plugin on
 "Set Theme
 colorscheme dracula
 
+
+"Harpoon Remaps
+nmap <leader>hh :lua require("harpoon.ui").toggle_quick_menu()<CR>
+nmap <leader>ha :lua require("harpoon.mark").add_file()<CR>
+nmap <leader>f :lua require("harpoon.ui").nav_prev()<CR>
+nmap <leader>j :lua require("harpoon.ui").nav_next()<CR>
+
+nmap <leader>a :G<CR>
+
+"Fugitive Remaps
+nmap <leader>gs :G<CR>
+nmap <leader>gd :Gdiffsplit<CR>
+nmap <leader>gp :Git push<CR>
 
 "QuickFix List Remaps
 map <C-j> :cn<CR>
@@ -117,3 +136,4 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> ga <Plug>(coc-fix-current)
