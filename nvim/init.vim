@@ -42,8 +42,11 @@ Plug 'tpope/vim-fugitive'
 " Coc Server
 " Plug 'neoclide/coc.nvim',{'branch': 'release'}
 
+" LSP Config
+Plug 'neovim/nvim-lspconfig'
+
 " treesitter
-"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " Highlight
 " Plug 'sheerun/vim-polyglot'

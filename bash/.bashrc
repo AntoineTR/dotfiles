@@ -2,6 +2,8 @@
 export EDITOR='nvim'
 export ASPNETCORE_ENVIRONMENT=Development
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export PATH="$PATH:$HOME/.dotnet/tools"
+
 # Common aliases
 alias r='exec /bin/bash'
 alias ll='ls -la'

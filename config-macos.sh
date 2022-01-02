@@ -37,9 +37,9 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 15
 defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 defaults write com.apple.AppleMultitouchTrackpad Clicking -int 1
 
-# Battery 
-defaults write com.apple.menuextra.battery ShowPercent -string "NO"
-defaults write com.apple.menuextra.battery ShowTime -string "YES"
+# Battery DEPRECATED
+#defaults write com.apple.menuextra.battery ShowPercent -string "NO"
+#defaults write com.apple.menuextra.battery ShowTime -string "YES"
 
 #Corner
 defaults write com.apple.dock wvous-tr-corner -int 13 # lock
