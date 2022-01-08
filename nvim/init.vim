@@ -44,6 +44,7 @@ Plug 'tpope/vim-fugitive'
 
 " LSP Config
 Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/nvim-lsp-installer'
 
 " treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
