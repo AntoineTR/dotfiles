@@ -19,7 +19,8 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'preservim/nerdtree'
 
 "Commenter
-Plug 'preservim/nerdcommenter'
+"Plug 'preservim/nerdcommenter'
+Plug 'tpope/vim-commentary'
 
 " Telescope (fzf like)
 Plug 'nvim-lua/popup.nvim'
@@ -61,25 +62,6 @@ Plug 'github/copilot.vim'
 
 call plug#end()
 
-"CONFIG PLUGINS
-
-"Ale is for linting ( unused usings, live errors )
-"Should be split in ftplugin
-"let g:ale_linters = {
-            "\ 'cs': ['OmniSharp'],
-            "\ 'javascript': ['eslint'],
-            "\}
-"let g:ale_fix_on_save = 1
-"let g:ale_fixers = {
-            "\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-            "\   'javascript': ['eslint'],
-            "\   'typescript': ['eslint','prettier','tslint'],
-            "\}
-
-
-
-"Lua Files
-"lua require("leantoinetr")
 
 "nvim configs
 set relativenumber
@@ -100,11 +82,8 @@ set colorcolumn=140
 set clipboard=unnamed
 set noswapfile
 set updatetime=50
-"set autochdir
 filetype plugin on
 
-"Set Theme
-"colorscheme dracula
 
 
 
@@ -112,15 +91,3 @@ filetype plugin on
 map <C-j> :cn<CR>
 map <C-k> :cp<CR>
 
-
-"Typescript remap
-"let g:typescript_compiler_binary = 'tsc'
-"let g:typescript_compiler_options = ''
-"autocmd QuickFixCmdPost [^l]* nested cwindow
-"autocmd QuickFixCmdPost    l* nested lwindow
-"let g:coc_global_extensions = [ 'coc-tsserver' ]
-"nmap <silent> gd <Plug>(coc-definition)
-"nmap <silent> gy <Plug>(coc-type-definition)
-"nmap <silent> gi <Plug>(coc-implementation)
-"nmap <silent> gr <Plug>(coc-references)
-"nmap <silent> ga <Plug>(coc-fix-current)
