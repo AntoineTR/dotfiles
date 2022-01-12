@@ -26,6 +26,7 @@ Plug 'tpope/vim-commentary'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-file-browser.nvim'
 
 " Harpoon
 Plug 'ThePrimeagen/harpoon'
@@ -41,11 +42,11 @@ Plug 'tpope/vim-fugitive'
 " Plug 'puremourning/vimspector'
 
 " Coc Server
-" Plug 'neoclide/coc.nvim',{'branch': 'release'}
+ Plug 'neoclide/coc.nvim',{'branch': 'release'}
 
 " LSP Config
-Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/nvim-lsp-installer'
+"Plug 'neovim/nvim-lspconfig'
+"Plug 'williamboman/nvim-lsp-installer'
 
 " treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}

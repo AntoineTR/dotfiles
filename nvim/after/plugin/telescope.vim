@@ -6,7 +6,8 @@ nnoremap <C-p> :lua require('telescope.builtin').git_files()<CR>
 nnoremap <C-b> :lua require('telescope.builtin').git_branches()<CR>
 "nnoremap <C-p> :lua require('telescope.builtin').find_files()<CR>
 "nnoremap <C-f> :lua require('telescope.builtin').file_browser()<CR>
-nnoremap <C-f> :lua require('telescope.builtin').file_browser({ cwd = require("telescope.utils").buffer_dir() }) <CR><CR>
+" nnoremap <C-f> :lua require('telescope.builtin').file_browser({ cwd = require("telescope.utils").buffer_dir() }) <CR><CR>
+nnoremap <C-f> :lua require('telescope').extensions.file_browser.file_browser({ cwd = require("telescope.utils").buffer_dir() }) <CR><CR>
 "nnoremap <silent> ;; <cmd>Telescope help_tags<cr>
 
 lua << EOF
