@@ -16,7 +16,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'dracula/vim', { 'as': 'dracula' }
 
 "File Explorer
-Plug 'preservim/nerdtree'
+" Plug 'preservim/nerdtree'
 
 "Commenter
 "Plug 'preservim/nerdcommenter'
@@ -27,6 +27,9 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-file-browser.nvim'
+
+" Directory Tree
+Plug 'elihunter173/dirbuf.nvim'
 
 " Harpoon
 Plug 'ThePrimeagen/harpoon'
