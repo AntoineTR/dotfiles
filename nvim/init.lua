@@ -1,6 +1,7 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-vim.g.netrw_winsize = 25
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 local opt = vim.opt
 
@@ -27,16 +28,7 @@ opt.completeopt = { "menu", "menuone", "noselect" }
 
 vim.keymap.set("n", "<C-j>", ":cn<CR>", { silent = true })
 vim.keymap.set("n", "<C-k>", ":cp<CR>", { silent = true })
-vim.keymap.set("n", "<leader>e", function()
-  for _, win in ipairs(vim.api.nvim_list_wins()) do
-    local buf = vim.api.nvim_win_get_buf(win)
-    if vim.bo[buf].filetype == "netrw" then
-      vim.api.nvim_win_close(win, true)
-      return
-    end
-  end
-  vim.cmd("Lexplore")
-end, { silent = true, desc = "Toggle sidebar explorer" })
+vim.keymap.set("x", "p", [=["_dP]=], { desc = "Paste without yanking replaced text" })
 
 -- lazy.nvim bootstrap
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
