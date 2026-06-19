@@ -1,9 +1,2 @@
-return {
-  "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate",
-  opts = {
-    ensure_installed = { "lua", "vim", "vimdoc" },
-    highlight = { enable = true },
-    indent = { enable = true },
-  },
-}
+-- nvim 0.10+ has treesitter built-in; install parsers via :TSInstall
+return {}

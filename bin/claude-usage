@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+# Outputs Claude rate limit utilization — for tmux status bar.
+# Uses the seat OAuth token from ~/.claude/.credentials.json.
+
+CACHE="/tmp/claude-usage-ratelimit"
+CACHE_TTL=300
+
+if [ -f "$CACHE" ] && [ $(( $(date +%s) - $(stat -c %Y "$CACHE") )) -lt $CACHE_TTL ]; then
+    cat "$CACHE"
+    exit 0
+fi
+
+CREDS="$HOME/.claude/.credentials.json"
+
+if [ ! -f "$CREDS" ]; then
+    printf "Claude: no auth" | tee "$CACHE"
+    exit 0
+fi
+
+TOKEN=$(python3 -c "
+import json, sys
+try:
+    with open('$CREDS') as f:
+        d = json.load(f)
+    print(d['claudeAiOauth']['accessToken'])
+except:
+    sys.exit(1)
+" 2>/dev/null)
+
+if [ -z "$TOKEN" ]; then
+    printf "Claude: no token" | tee "$CACHE"
+    exit 0
+fi
+
+RESPONSE=$(curl -sf \
+    -H "Authorization: Bearer $TOKEN" \
+    -H "anthropic-beta: oauth-2025-04-20" \
+    -H "User-Agent: tmux-claude-usage/1.0" \
+    "https://api.anthropic.com/api/oauth/usage" 2>/dev/null)
+
+if [ -z "$RESPONSE" ]; then
+    if [ -f "$CACHE" ]; then
+        cat "$CACHE"
+    else
+        printf "Claude: ?"
+    fi
+    exit 0
+fi
+
+result=$(printf '%s' "$RESPONSE" | python3 -c "
+import json, sys
+from datetime import datetime, timezone
+
+try:
+    d = json.load(sys.stdin)
+except Exception as e:
+    print('Claude: err')
+    sys.exit(0)
+
+def fmt_window(key, label):
+    w = d.get(key)
+    if not w:
+        return None
+    util = w.get('utilization')
+    if util is None:
+        return None
+    left = max(0, int(100 - util))
+    if left == 0:
+        return f'{label}:RATE'
+    return f'{label}:{left}%'
+
+five_h = fmt_window('five_hour', '5h')
+seven_d = fmt_window('seven_day', '7d')
+
+parts = [p for p in [five_h, seven_d] if p is not None]
+print('Claude ' + ' '.join(parts) if parts else 'Claude: ok')
+" 2>/dev/null)
+
+if [ -z "$result" ]; then
+    result="Claude: ?"
+fi
+
+printf "%s" "$result" | tee "$CACHE"

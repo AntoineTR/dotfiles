@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# List all tmux sessions for status bar; highlight the current one.
+current=$(tmux display-message -p '#S' 2>/dev/null)
+tmux list-sessions -F '#S' 2>/dev/null | while IFS= read -r s; do
+    if [ "$s" = "$current" ]; then
+        printf "#[fg=#50fa7b,bold] %s #[fg=#6272a4,nobold]|" "$s"
+    else
+        printf "#[fg=#f8f8f2,nobold] %s #[fg=#6272a4]|" "$s"
+    fi
+done | sed 's/#\[fg=#6272a4[^]]*\]|$//'
