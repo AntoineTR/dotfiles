@@ -25,10 +25,61 @@ opt.clipboard = "unnamed"
 opt.swapfile = false
 opt.updatetime = 50
 opt.completeopt = { "menu", "menuone", "noselect" }
+opt.fileformats = { "dos", "unix" }
+
+vim.api.nvim_create_user_command("LineEndingsDos", function()
+  vim.cmd([[silent! %s/\r$//e]])
+  vim.bo.fileformat = "dos"
+  vim.cmd("write")
+end, { desc = "Normalize current buffer to Windows CRLF line endings" })
+
+vim.api.nvim_create_user_command("LineEndingsUnix", function()
+  vim.cmd([[silent! %s/\r$//e]])
+  vim.bo.fileformat = "unix"
+  vim.cmd("write")
+end, { desc = "Normalize current buffer to Unix LF line endings" })
+
+local terminal_buf
+local terminal_win
+
+local function toggle_floating_terminal()
+  if terminal_win and vim.api.nvim_win_is_valid(terminal_win) then
+    vim.api.nvim_win_hide(terminal_win)
+    return
+  end
+
+  if not terminal_buf or not vim.api.nvim_buf_is_valid(terminal_buf) then
+    terminal_buf = vim.api.nvim_create_buf(false, true)
+    vim.bo[terminal_buf].bufhidden = "hide"
+  end
+
+  local width = math.floor(vim.o.columns * 0.9)
+  local height = math.floor(vim.o.lines * 0.8)
+  terminal_win = vim.api.nvim_open_win(terminal_buf, true, {
+    relative = "editor",
+    width = width,
+    height = height,
+    col = math.floor((vim.o.columns - width) / 2),
+    row = math.floor((vim.o.lines - height) / 2),
+    style = "minimal",
+    border = "rounded",
+    title = " Terminal ",
+    title_pos = "center",
+  })
+
+  if vim.bo[terminal_buf].buftype ~= "terminal" then
+    vim.fn.termopen({ vim.o.shell })
+  end
+
+  vim.cmd("startinsert")
+end
 
 vim.keymap.set("n", "<C-j>", ":cn<CR>", { silent = true })
 vim.keymap.set("n", "<C-k>", ":cp<CR>", { silent = true })
+vim.keymap.set("n", "gl", vim.diagnostic.open_float, { silent = true, desc = "Show diagnostics float" })
 vim.keymap.set("x", "p", [=["_dP]=], { desc = "Paste without yanking replaced text" })
+vim.keymap.set("n", "<leader>tt", toggle_floating_terminal, { silent = true, desc = "Toggle terminal" })
+vim.keymap.set("t", "<leader>tt", toggle_floating_terminal, { silent = true, desc = "Toggle terminal" })
 
 -- lazy.nvim bootstrap
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
