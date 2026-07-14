@@ -27,6 +27,9 @@ colors:
     cyan: "#9aedfe"
     white: "#e6e6e6"
 
+selection:
+  save_to_clipboard: true
+
 window:
   opacity: 0.8
 

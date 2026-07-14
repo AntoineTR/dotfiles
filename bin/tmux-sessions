@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 # List all tmux sessions for status bar; highlight the current one.
+# Hidden background sessions spawned by tmux-claude-session-manager (popup
+# sessions linked to another window) are excluded.
+claude_prefix=$(tmux show-option -gqv @claude_session_prefix 2>/dev/null)
+claude_prefix="${claude_prefix:-claude-}"
 current=$(tmux display-message -p '#S' 2>/dev/null)
 tmux list-sessions -F '#S' 2>/dev/null | while IFS= read -r s; do
+    case "$s" in
+        "$claude_prefix"*) continue ;;
+    esac
     if [ "$s" = "$current" ]; then
         printf "#[fg=#50fa7b,bold] %s #[fg=#6272a4,nobold]|" "$s"
     else
