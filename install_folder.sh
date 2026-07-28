@@ -53,15 +53,27 @@ fi
 
 # sqlit - TUI for SQL databases (https://github.com/Maxteabag/sqlit)
 if ! command -v pipx &>/dev/null; then
-    if command -v apt &>/dev/null; then
+    if command -v brew &>/dev/null; then
+        brew install pipx
+        pipx ensurepath
+    elif command -v apt &>/dev/null; then
         sudo apt install -y pipx
     else
-        python3 -m pip install --user pipx --break-system-packages
+        python3 -m pip install --user pipx
         python3 -m pipx ensurepath
         export PATH="$PATH:$HOME/.local/bin"
     fi
 fi
 pipx install sqlit-tui
+
+# tmux itself (needed for the plugin install and source-file below)
+if ! command -v tmux &>/dev/null; then
+    if command -v brew &>/dev/null; then
+        brew install tmux
+    elif command -v apt &>/dev/null; then
+        sudo apt install -y tmux
+    fi
+fi
 
 #Plugin manager for Tmux
 
