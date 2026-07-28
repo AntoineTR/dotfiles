@@ -38,7 +38,22 @@ alias wttr='curl wttr.in'
 alias myip='curl ifconfig.me'
 [ -z "$ZSH_NAME" ] && [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-# auto-attach to tmux on SSH
-if [ -z "$TMUX" ] && [ -n "$SSH_CONNECTION" ]; then
+# mosh inherits a stale SSH_CONNECTION from its ssh bootstrap handshake, so
+# the auto-attach below would otherwise nest a second tmux server-side on top
+# of the mosh client's own local tmux. Detect it by checking whether our
+# direct parent process is mosh-server rather than sshd.
+_is_mosh_session() {
+    local ppid comm
+    ppid=$(ps -o ppid= -p $$ 2>/dev/null | tr -d ' ')
+    [ -z "$ppid" ] && return 1
+    comm=$(ps -o comm= -p "$ppid" 2>/dev/null)
+    case "$comm" in
+        *mosh-server*) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+# auto-attach to tmux on real SSH connections (not mosh, see above)
+if [ -z "$TMUX" ] && [ -n "$SSH_CONNECTION" ] && ! _is_mosh_session; then
     tmux attach-session 2>/dev/null || tmux new-session
 fi
