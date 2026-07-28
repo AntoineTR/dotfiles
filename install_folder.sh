@@ -20,6 +20,13 @@ if ! grep -q 'dotfiles/bash/.bashrc' ~/.bashrc; then
     echo '[ -f ~/dotfiles/bash/.bashrc ] && source ~/dotfiles/bash/.bashrc' >> ~/.bashrc
 fi
 
+# ~/.bashrc is only read by non-login shells. Terminal.app and kitty (via
+# `bash -l`) launch login shells, which read ~/.bash_profile instead — chain
+# it into .bashrc so brew/tmux/etc actually load in real interactive sessions.
+if ! grep -q '\.bashrc' ~/.bash_profile 2>/dev/null; then
+    echo '[ -f ~/.bashrc ] && source ~/.bashrc' >> ~/.bash_profile
+fi
+
 # add symlink .tmux
 rm -rf ~/.tmux.conf
 ln -s ~/dotfiles/tmux/.tmux.conf ~/.tmux.conf
