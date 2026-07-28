@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+# Make Homebrew available in this script even if it's only wired into a shell
+# rc file (or this script gets invoked with `sh` instead of `bash`/`./`)
+if [ -x /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [ -x /usr/local/bin/brew ]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+fi
 
 # create folders
 # mkdir -p ~/.config/nvim/{plugin,after/plugin,ftplugin}
