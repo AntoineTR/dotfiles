@@ -22,6 +22,26 @@ ln -sf ~/dotfiles/bin/claude-usage ~/.local/bin/claude-usage
 ln -sf ~/dotfiles/bin/tmux-sessions ~/.local/bin/tmux-sessions
 chmod +x ~/dotfiles/bin/claude-usage ~/dotfiles/bin/tmux-sessions
 
+# add symlink for the hunk-review Claude Code skill (forked from the hunkdiff npm
+# package's bundled skill, with tmux-popup-aware launch behavior added)
+mkdir -p ~/.claude/skills
+rm -rf ~/.claude/skills/hunk-review
+ln -s ~/dotfiles/.claude/skills/hunk-review ~/.claude/skills/hunk-review
+
+# add symlink kitty config
+mkdir -p ~/.config/kitty
+rm -rf ~/.config/kitty/kitty.conf
+ln -s ~/dotfiles/kitty/kitty.conf ~/.config/kitty/kitty.conf
+
+# mosh - use instead of ssh for roaming/high-latency connections
+if ! command -v mosh &>/dev/null; then
+    if command -v brew &>/dev/null; then
+        brew install mosh
+    elif command -v apt &>/dev/null; then
+        sudo apt install -y mosh
+    fi
+fi
+
 # add symlink nvim
 # for f in `find nvim/ -name "*.vim" -o -name "*.lua"`; do
 #     rm -rf ~/.config/$f

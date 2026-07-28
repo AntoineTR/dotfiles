@@ -8,6 +8,9 @@ brew doctor
 # iterm2
 brew list iterm2 || brew --cask iterm2
 
+# kitty
+brew list --cask kitty || brew install --cask kitty
+
 # dotnet sdk
 brew list dotnet-sdk || brew install --cask dotnet-sdk
 ## used by lsp-config for NEOVIM

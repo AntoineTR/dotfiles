@@ -26,8 +26,8 @@ return {
   },
   opts = {
     view = {
-      width = 30,
-      preserve_window_proportions = true,
+      width = 50,
+      preserve_window_proportions = false,
     },
     actions = {
       open_file = {
