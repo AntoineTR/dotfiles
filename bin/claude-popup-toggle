@@ -6,8 +6,17 @@
 # adds the missing half of the toggle - inside a claude-* session, detach the
 # client (the popup closes, the Claude session keeps running); anywhere else,
 # fall through to the plugin's launch script.
+#
+# It also names sessions claude-<hash>-<dirname> instead of the plugin's bare
+# claude-<hash>, so the status bar and pickers show which directory each one
+# belongs to. The hash must stay first and intact: launch.sh targets
+# claude-<hash> and relies on tmux's unambiguous-prefix matching to resolve
+# the suffixed name. The session is pre-created here (mirroring launch.sh's
+# new-session call) so launch.sh only ever finds and attaches it.
 # Args: <pane_current_path> <window_id>  (same contract as launch.sh)
 set -uo pipefail
+
+plugin="$HOME/.tmux/plugins/tmux-claude-session-manager"
 
 prefix="$(tmux show-option -gqv @claude_session_prefix 2>/dev/null)"
 prefix="${prefix:-claude-}"
@@ -16,4 +25,28 @@ if [[ "$(tmux display-message -p '#S')" == "$prefix"* ]]; then
   exec tmux detach-client
 fi
 
-exec "$HOME/.tmux/plugins/tmux-claude-session-manager/scripts/launch.sh" "$@"
+path="${1:-$PWD}"
+
+# Same hash scheme as the plugin's helpers.sh session_hash
+hash="$(printf '%s\n' "$path" | md5sum)"
+bare="${prefix}${hash:0:8}"
+
+# tmux session names cannot contain . or :
+label="$(basename "$path")"
+label="${label//[^A-Za-z0-9_-]/_}"
+
+# Migrate a bare-hash session created before this naming scheme ("=" forces
+# an exact match, so an already-suffixed session is left alone)
+if tmux has-session -t "=$bare" 2>/dev/null; then
+  tmux rename-session -t "=$bare" "${bare}-${label}"
+fi
+
+if ! tmux has-session -t "$bare" 2>/dev/null && [ -d "$path" ]; then
+  cmd="$(tmux show-option -gqv @claude_command 2>/dev/null)"
+  cmd="${cmd:-claude}"
+  args="$(tmux show-option -gqv @claude_args 2>/dev/null)"
+  [ -n "$args" ] && cmd="$cmd $args"
+  tmux new-session -d -s "${bare}-${label}" -c "$path" "$cmd"
+fi
+
+exec "$plugin/scripts/launch.sh" "$@"
