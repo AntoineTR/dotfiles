@@ -35,7 +35,8 @@ ln -s ~/dotfiles/tmux/.tmux.conf ~/.tmux.conf
 ln -sf ~/dotfiles/bin/claude-usage ~/.local/bin/claude-usage
 ln -sf ~/dotfiles/bin/tmux-sessions ~/.local/bin/tmux-sessions
 ln -sf ~/dotfiles/bin/osc52-copy ~/.local/bin/osc52-copy
-chmod +x ~/dotfiles/bin/claude-usage ~/dotfiles/bin/tmux-sessions ~/dotfiles/bin/osc52-copy
+ln -sf ~/dotfiles/bin/claude-popup-toggle ~/.local/bin/claude-popup-toggle
+chmod +x ~/dotfiles/bin/claude-usage ~/dotfiles/bin/tmux-sessions ~/dotfiles/bin/osc52-copy ~/dotfiles/bin/claude-popup-toggle
 
 # add symlink for the hunk-review Claude Code skill (forked from the hunkdiff npm
 # package's bundled skill, with tmux-popup-aware launch behavior added)

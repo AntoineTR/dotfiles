@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Toggle for the tmux-claude-session-manager popup (bound to prefix+y).
+#
+# The plugin's own binding only launches: pressing prefix+y from inside the
+# popup prints "Popup window already open" instead of closing it. This wrapper
+# adds the missing half of the toggle - inside a claude-* session, detach the
+# client (the popup closes, the Claude session keeps running); anywhere else,
+# fall through to the plugin's launch script.
+# Args: <pane_current_path> <window_id>  (same contract as launch.sh)
+set -uo pipefail
+
+prefix="$(tmux show-option -gqv @claude_session_prefix 2>/dev/null)"
+prefix="${prefix:-claude-}"
+
+if [[ "$(tmux display-message -p '#S')" == "$prefix"* ]]; then
+  exec tmux detach-client
+fi
+
+exec "$HOME/.tmux/plugins/tmux-claude-session-manager/scripts/launch.sh" "$@"
