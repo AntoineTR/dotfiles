@@ -22,6 +22,30 @@ opt.scrolloff = 5
 opt.signcolumn = "yes"
 opt.colorcolumn = "140"
 opt.clipboard = "unnamed"
+
+-- Route the system clipboard through bin/osc52-copy.
+--
+-- nvim's built-in OSC 52 support emits a correctly-formed
+-- `ESC ] 52 ; c ; <b64>`, but tmux intercepts OSC 52 coming from a pane and
+-- re-emits it with an EMPTY selection parameter (`ESC ] 52 ; ; <b64>`), which
+-- mosh drops - mosh only accepts the `c` selection. osc52-copy sidesteps tmux
+-- entirely by writing the sequence to the outer client's tty itself.
+--
+-- Reading the clipboard back is not possible over mosh (OSC 52 reads are not
+-- forwarded), so paste serves whatever nvim last copied instead.
+local osc52_copy = vim.fn.expand("~/.local/bin/osc52-copy")
+if vim.fn.executable(osc52_copy) == 1 then
+  local function paste()
+    return vim.split(vim.fn.getreg('"'), "\n")
+  end
+
+  vim.g.clipboard = {
+    name = "osc52-copy",
+    copy = { ["+"] = { osc52_copy }, ["*"] = { osc52_copy } },
+    paste = { ["+"] = paste, ["*"] = paste },
+    cache_enabled = true,
+  }
+end
 opt.swapfile = false
 opt.updatetime = 50
 opt.completeopt = { "menu", "menuone", "noselect" }
