@@ -44,6 +44,12 @@ mkdir -p ~/.claude/skills
 rm -rf ~/.claude/skills/hunk-review
 ln -s ~/dotfiles/.claude/skills/hunk-review ~/.claude/skills/hunk-review
 
+# add symlink for the pr-review skill (opens a GitHub PR in Hunk and annotates
+# it). Depends on hunk-review above for resolve_host_session.sh
+rm -rf ~/.claude/skills/pr-review
+ln -s ~/dotfiles/.claude/skills/pr-review ~/.claude/skills/pr-review
+chmod +x ~/dotfiles/.claude/skills/pr-review/scripts/open_pr_review.sh
+
 # add symlink kitty config
 mkdir -p ~/.config/kitty
 rm -rf ~/.config/kitty/kitty.conf
