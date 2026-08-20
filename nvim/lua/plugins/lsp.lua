@@ -33,27 +33,37 @@ return {
     local configured = {}
     local has_new_api = vim.lsp ~= nil and vim.lsp.config ~= nil and type(vim.lsp.enable) == "function"
 
+    -- Per-server overrides merged on top of the shared on_attach/capabilities.
+    local server_settings = {
+      -- Prefer the project's own TypeScript over the one vtsls bundles, so
+      -- diagnostics match `tsc`.
+      vtsls = {
+        settings = {
+          vtsls = { autoUseWorkspaceTsdk = true },
+        },
+      },
+    }
+
     local function setup_server(server_name)
       if configured[server_name] then
         return
       end
 
+      local opts = vim.tbl_deep_extend("force", {
+        on_attach = on_attach,
+        capabilities = capabilities,
+      }, server_settings[server_name] or {})
+
       local ok = false
 
       if has_new_api then
-        local ok_config = pcall(vim.lsp.config, server_name, {
-          on_attach = on_attach,
-          capabilities = capabilities,
-        })
+        local ok_config = pcall(vim.lsp.config, server_name, opts)
         local ok_enable = ok_config and pcall(vim.lsp.enable, server_name)
         ok = ok_enable
       else
         local lspconfig = require("lspconfig")
         if lspconfig[server_name] then
-          lspconfig[server_name].setup({
-            on_attach = on_attach,
-            capabilities = capabilities,
-          })
+          lspconfig[server_name].setup(opts)
           ok = true
         end
       end
@@ -64,7 +74,7 @@ return {
     end
 
     if mlsp_ok then
-      mlsp.setup({})
+      mlsp.setup({ ensure_installed = { "vtsls" } })
 
       if type(mlsp.setup_handlers) == "function" then
         mlsp.setup_handlers({
@@ -81,6 +91,9 @@ return {
       end
     end
 
+    -- Configured explicitly: `ensure_installed` installs asynchronously, so
+    -- these are not in get_installed_servers() on the run that installs them.
     setup_server("terraformls")
+    setup_server("vtsls")
   end,
 }
