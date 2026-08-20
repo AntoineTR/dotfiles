@@ -13,7 +13,16 @@
 # claude-<hash> and relies on tmux's unambiguous-prefix matching to resolve
 # the suffixed name. The session is pre-created here (mirroring launch.sh's
 # new-session call) so launch.sh only ever finds and attaches it.
-# Args: <pane_current_path> <window_id>  (same contract as launch.sh)
+#
+# It also records @claude_parent at launch. The plugin's picker uses that
+# option to move the outer client to the picked agent's origin window, but
+# only list.sh (prefix+u from a non-popup client) ever sets it - opening the
+# popup with prefix+y and switching agents from inside it leaves the option
+# stale, so the underlying session never follows the pick. The launching
+# client is the outer client by definition (the detach branch above returns
+# before this for popup clients).
+# Args: <pane_current_path> <window_id> [client_name]
+#       (first two are launch.sh's contract; client_name stays here)
 set -uo pipefail
 
 plugin="$HOME/.tmux/plugins/tmux-claude-session-manager"
@@ -26,6 +35,9 @@ if [[ "$(tmux display-message -p '#S')" == "$prefix"* ]]; then
 fi
 
 path="${1:-$PWD}"
+
+client="${3:-}"
+[ -n "$client" ] && tmux set-option -g @claude_parent "$client"
 
 # Same hash scheme as the plugin's helpers.sh session_hash
 hash="$(printf '%s\n' "$path" | md5sum)"
@@ -49,4 +61,4 @@ if ! tmux has-session -t "$bare" 2>/dev/null && [ -d "$path" ]; then
   tmux new-session -d -s "${bare}-${label}" -c "$path" "$cmd"
 fi
 
-exec "$plugin/scripts/launch.sh" "$@"
+exec "$plugin/scripts/launch.sh" "$path" "${2:-}"
