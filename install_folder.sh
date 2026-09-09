@@ -8,11 +8,43 @@ elif [ -x /usr/local/bin/brew ]; then
     eval "$(/usr/local/bin/brew shellenv)"
 fi
 
+# Everything below refers to ~/dotfiles. The repo may live elsewhere (e.g.
+# ~/source/repos/dotfiles), so point ~/dotfiles at wherever this script is.
+DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ ! -e ~/dotfiles ]; then
+    ln -s "$DOTFILES" ~/dotfiles
+elif [ "$(cd ~/dotfiles && pwd -P)" != "$DOTFILES" ]; then
+    echo "warning: ~/dotfiles points at $(cd ~/dotfiles && pwd -P), not $DOTFILES" >&2
+fi
+
+# Package install helpers: brew on macOS, apt elsewhere. apt lists are often
+# empty on a fresh machine (WSL images especially), so refresh them once before
+# the first install.
+apt_updated=0
+pkg_install() {
+    if command -v brew &>/dev/null; then
+        brew install "$@"
+    elif command -v apt-get &>/dev/null; then
+        if [ "$apt_updated" -eq 0 ]; then
+            sudo apt-get update
+            apt_updated=1
+        fi
+        sudo apt-get install -y "$@"
+    else
+        echo "warning: no brew or apt; install manually: $*" >&2
+        return 1
+    fi
+}
+# Install a package only if its command is missing
+ensure() { # <command> [package...]
+    local cmd="$1"; shift
+    command -v "$cmd" &>/dev/null || pkg_install "${@:-$cmd}"
+}
+
 # create folders
-# mkdir -p ~/.config/nvim/{plugin,after/plugin,ftplugin}
-# mkdir -p ~/.config/tmuxinator
 mkdir -p ~/.tmux/plugins/tpm
 mkdir -p ~/.local/bin
+mkdir -p ~/.config
 
 
 # source dotfiles bashrc from the live ~/.bashrc
@@ -20,11 +52,13 @@ if ! grep -q 'dotfiles/bash/.bashrc' ~/.bashrc; then
     echo '[ -f ~/dotfiles/bash/.bashrc ] && source ~/dotfiles/bash/.bashrc' >> ~/.bashrc
 fi
 
-# ~/.bashrc is only read by non-login shells. Terminal.app and kitty (via
-# `bash -l`) launch login shells, which read ~/.bash_profile instead — chain
-# it into .bashrc so brew/tmux/etc actually load in real interactive sessions.
+# ~/.bashrc is only read by non-login shells. Terminal.app, kitty (`bash -l`)
+# and WSL launch login shells, which read ~/.bash_profile instead - and once
+# that file exists bash ignores ~/.profile entirely. Ubuntu's ~/.profile is
+# what puts ~/.local/bin on PATH and sources ~/.bashrc, so prefer it when
+# present and fall back to ~/.bashrc directly (macOS has no ~/.profile).
 if ! grep -q '\.bashrc' ~/.bash_profile 2>/dev/null; then
-    echo '[ -f ~/.bashrc ] && source ~/.bashrc' >> ~/.bash_profile
+    echo 'if [ -f ~/.profile ]; then source ~/.profile; elif [ -f ~/.bashrc ]; then source ~/.bashrc; fi' >> ~/.bash_profile
 fi
 
 # add symlink .tmux
@@ -56,19 +90,36 @@ rm -rf ~/.config/kitty/kitty.conf
 ln -s ~/dotfiles/kitty/kitty.conf ~/.config/kitty/kitty.conf
 
 # mosh - use instead of ssh for roaming/high-latency connections
-if ! command -v mosh &>/dev/null; then
-    if command -v brew &>/dev/null; then
-        brew install mosh
-    elif command -v apt &>/dev/null; then
-        sudo apt install -y mosh
-    fi
-fi
+ensure mosh
 
-# add symlink nvim
-# for f in `find nvim/ -name "*.vim" -o -name "*.lua"`; do
-#     rm -rf ~/.config/$f
-#     ln -s ~/dotfiles/$f ~/.config/$f
-# done
+# Neovim + what the config needs at runtime:
+#   git, curl, unzip  - lazy.nvim and mason.nvim download plugins/servers
+#   gcc               - nvim-treesitter compiles parsers (prisma)
+#   node/npm          - vtsls (via mason) and copilot.lua
+#   ripgrep           - telescope live_grep
+#   lazygit           - lazygit.nvim
+ensure nvim neovim
+ensure git
+ensure curl
+ensure unzip
+if command -v brew &>/dev/null; then
+    ensure gcc
+    ensure node
+else
+    ensure gcc build-essential
+    ensure node nodejs npm
+fi
+ensure rg ripgrep
+ensure lazygit
+
+# add symlink nvim (the whole directory; lazy.nvim expects init.lua + lua/ as
+# one tree). Keep a copy of any pre-existing real config rather than deleting it.
+if [ -e ~/.config/nvim ] && [ ! -L ~/.config/nvim ]; then
+    mv ~/.config/nvim ~/.config/nvim.bak.$(date +%Y%m%d%H%M%S)
+fi
+rm -f ~/.config/nvim
+ln -s ~/dotfiles/nvim ~/.config/nvim
+
 # add symlink dotfiles project
 # rm -rf ~/.config/tmuxinator/dotfiles.yml
 # ln -s ~/dotfiles/dotfiles.yml ~/.config/tmuxinator/dotfiles.yml
@@ -78,24 +129,18 @@ if ! command -v pipx &>/dev/null; then
     if command -v brew &>/dev/null; then
         brew install pipx
         pipx ensurepath
-    elif command -v apt &>/dev/null; then
-        sudo apt install -y pipx
+    elif command -v apt-get &>/dev/null; then
+        pkg_install pipx
     else
         python3 -m pip install --user pipx
         python3 -m pipx ensurepath
         export PATH="$PATH:$HOME/.local/bin"
     fi
 fi
-pipx install sqlit-tui
+pipx install sqlit-tui || echo "warning: sqlit-tui install failed (already installed, or no wheel for this Python); continuing" >&2
 
 # tmux itself (needed for the plugin install and source-file below)
-if ! command -v tmux &>/dev/null; then
-    if command -v brew &>/dev/null; then
-        brew install tmux
-    elif command -v apt &>/dev/null; then
-        sudo apt install -y tmux
-    fi
-fi
+ensure tmux
 
 #Plugin manager for Tmux
 
@@ -103,4 +148,12 @@ rm -rf ~/.tmux/plugins/tpm
 
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-tmux source-file ~/.tmux.conf
+# Install the plugins listed in .tmux.conf (dracula, claude-session-manager)
+# now instead of waiting for prefix+I. tpm's installer starts its own
+# throwaway server, so this works with no tmux running.
+~/.tmux/plugins/tpm/bin/install_plugins
+
+# Reload the config into a running server, if there is one
+if tmux list-sessions &>/dev/null; then
+    tmux source-file ~/.tmux.conf
+fi

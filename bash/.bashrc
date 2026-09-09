@@ -9,7 +9,10 @@ fi
 export EDITOR='nvim'
 export ASPNETCORE_ENVIRONMENT=Development
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
-export PATH="$PATH:$HOME/.dotnet/tools"
+export DOTNET_ROOT="$HOME/.dotnet"
+export PATH="$HOME/.dotnet:$PATH:$HOME/.dotnet/tools"
+# OpenSSL trust for the ASP.NET Core HTTPS dev certificate (dotnet dev-certs https --trust)
+export SSL_CERT_DIR="$HOME/.aspnet/dev-certs/trust:/usr/lib/ssl/certs"
 
 # Common aliases
 alias r='exec /bin/bash'
